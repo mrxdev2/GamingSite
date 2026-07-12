@@ -25,6 +25,7 @@ async function checkSession() {
     document.getElementById('welcome-line').textContent = `Karibu tena, ${user.username}.`;
     document.getElementById('balance-amount').textContent = fmtCoins(user.coins);
     loadDeposits();
+    loadWithdrawals();
   } else {
     document.getElementById('auth-section').style.display = 'block';
     document.getElementById('wallet-section').style.display = 'none';
@@ -127,6 +128,49 @@ async function loadDeposits() {
   `).join('');
 
   // Balance may have changed if a deposit was just approved.
+  const { coins } = await api('/wallet/balance');
+  document.getElementById('balance-amount').textContent = fmtCoins(coins);
+}
+
+document.getElementById('submit-withdraw').addEventListener('click', async () => {
+  const alertBox = document.getElementById('withdraw-alert');
+  alertBox.className = 'alert';
+  try {
+    await api('/wallet/withdraw', {
+      method: 'POST',
+      body: {
+        coins: Number(document.getElementById('withdraw-coins').value),
+        phone: document.getElementById('withdraw-phone').value.trim(),
+      },
+    });
+    alertBox.textContent = 'Ombi la kutoa coin limetumwa! Utapokea pesa mara admin atakapothibitisha, na ndipo coin zitakatwa kwenye salio lako.';
+    alertBox.classList.add('show', 'success');
+    document.getElementById('withdraw-phone').value = '';
+    loadWithdrawals();
+  } catch (err) {
+    alertBox.textContent = err.message;
+    alertBox.classList.add('show', 'error');
+  }
+});
+
+async function loadWithdrawals() {
+  const { withdrawals } = await api('/wallet/withdrawals');
+  const container = document.getElementById('withdraw-history');
+  if (withdrawals.length === 0) {
+    container.innerHTML = '<div class="hint">Bado hujawahi kuomba kutoa coin.</div>';
+    return;
+  }
+  container.innerHTML = withdrawals.map((w) => `
+    <div class="deposit-item">
+      <div>
+        <b>${fmtCoins(w.coins)} coin</b> &middot; ${fmtTsh(w.amountTsh)}
+        <div class="hint">${fmtDate(w.createdAt)} &middot; Simu: ${escapeHtml(w.phone)}</div>
+      </div>
+      ${statusLabel(w.status)}
+    </div>
+  `).join('');
+
+  // Balance may have changed if a withdrawal was just approved.
   const { coins } = await api('/wallet/balance');
   document.getElementById('balance-amount').textContent = fmtCoins(coins);
 }

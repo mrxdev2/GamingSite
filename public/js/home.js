@@ -17,7 +17,7 @@ function gameCardHtml(game) {
           <img class="icon" src="${escapeHtml(game.iconUrl)}" alt="" loading="lazy" onerror="this.style.opacity=0.25" />
           <div>
             <h3>${escapeHtml(game.name)}</h3>
-            <div class="meta">${fmtCoins(game.downloads)} downloads</div>
+            <div class="meta">${fmtCoins(game.downloads)} downloads${game.uploadedBy ? ` &middot; na ${escapeHtml(game.uploadedBy)}` : ''}</div>
           </div>
         </div>
         <div class="footer-row">

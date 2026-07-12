@@ -3,6 +3,21 @@
 const form = document.getElementById('add-form');
 const formAlert = document.getElementById('form-alert');
 const submitBtn = document.getElementById('submit-btn');
+const loginNotice = document.getElementById('login-notice');
+
+// Kupakia mchezo kunahitaji uwe umeingia Pochi yako, kwa sababu jina
+// lako litaonekana kama "Imepakiwa na" na coin za mauzo zitakuja kwako.
+async function checkUploadLogin() {
+  const { user } = await api('/auth/me');
+  if (!user) {
+    loginNotice.style.display = 'block';
+    submitBtn.disabled = true;
+  } else {
+    loginNotice.style.display = 'none';
+    submitBtn.disabled = false;
+  }
+}
+checkUploadLogin();
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -27,8 +42,9 @@ form.addEventListener('submit', async (e) => {
     form.reset();
     document.getElementById('priceCoins').value = 0;
   } catch (err) {
-    formAlert.textContent = err.message;
+    formAlert.textContent = err.status === 401 ? 'Ingia kwenye Pochi yako kwanza ili kupakia mchezo.' : err.message;
     formAlert.classList.add('show', 'error');
+    if (err.status === 401) checkUploadLogin();
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Chapisha Mchezo';
