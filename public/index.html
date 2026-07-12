@@ -12,6 +12,8 @@
 <header class="topbar">
   <div class="topbar-inner">
     <a href="/" class="brand"><span class="brand-mark">GH</span> GamingHub</a>
+    
+    <!-- Menu ya Kawaida ya Kompyuta (Desktop) -->
     <nav class="mainnav">
       <a href="/" class="active">Michezo</a>
       <a href="/add.html">Ongeza Mchezo</a>
@@ -19,8 +21,53 @@
       <a href="/admin.html">Admin</a>
     </nav>
     <div class="wallet-pill" id="nav-wallet-pill">Pochi</div>
+
+    <!-- Kitufe cha Hamburger (Kinaonekana kwenye Simu Tu) -->
+    <button class="mobile-menu-btn" id="open-sidebar" aria-label="Fungua Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
   </div>
 </header>
+
+<!-- ========================================== -->
+<!-- BOTTOM NAVIGATION BAR (Kwenye Simu Tu)     -->
+<!-- ========================================== -->
+<nav class="bottom-nav">
+  <!-- Mchezo (Home - Active) -->
+  <a href="/" class="bottom-nav-item active">
+    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    <span>Michezo</span>
+  </a>
+  
+  <!-- Katikati: Ongeza Michezo (+) -->
+  <a href="/add.html" class="bottom-nav-item center-btn" aria-label="Ongeza Mchezo">
+    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="#1a1400"/></svg>
+    <span>Ongeza</span>
+  </a>
+  
+  <!-- Mwisho: Pochi -->
+  <a href="/wallet.html" class="bottom-nav-item">
+    <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5 0.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+    <span>Pochi</span>
+  </a>
+</nav>
+
+<!-- ========================================== -->
+<!-- SIDE MENU / SIDEBAR (Kwenye Simu Tu)       -->
+<!-- ========================================== -->
+<div class="sidebar-backdrop" id="sidebar-backdrop">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <span class="brand" style="font-size: 1.3rem;"><span class="brand-mark" style="width:28px; height:28px; font-size:0.9rem;">GH</span> Menu</span>
+      <button class="sidebar-close" id="close-sidebar">&times;</button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="/admin.html">Admin Panel</a>
+      <a href="/">Vinjari Michezo</a>
+      <a href="/wallet.html">Miamala ya Pochi</a>
+    </nav>
+  </aside>
+</div>
 
 <main class="shell">
 
@@ -88,5 +135,25 @@
 
 <script src="/js/api.js"></script>
 <script src="/js/home.js"></script>
+
+<!-- Script ya kuendesha Side Menu -->
+<script>
+  const openBtn = document.getElementById('open-sidebar');
+  const closeBtn = document.getElementById('close-sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+
+  openBtn.addEventListener('click', () => {
+    backdrop.classList.add('show');
+  });
+
+  const closeSidebar = () => {
+    backdrop.classList.remove('show');
+  };
+
+  closeBtn.addEventListener('click', closeSidebar);
+  backdrop.addEventListener('click', (e) => {
+    if (e.target === backdrop) closeSidebar();
+  });
+</script>
 </body>
 </html>
