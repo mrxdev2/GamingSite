@@ -54,12 +54,13 @@
     <div class="stat-row">
       <div class="stat-box"><b id="stat-games">—</b><span>Michezo</span></div>
       <div class="stat-box"><b id="stat-users">—</b><span>Watumiaji wa Pochi</span></div>
-      <div class="stat-box"><b id="stat-pending">—</b><span>Maombi Yanayosubiri</span></div>
+      <div class="stat-box"><b id="stat-pending">—</b><span>Kuweka Yanayosubiri</span></div>
+      <div class="stat-box"><b id="stat-pending-withdraw">—</b><span>Kutoa Yanayosubiri</span></div>
       <div class="stat-box"><b id="stat-coins">—</b><span>Coin Zilizopo Mzunguko</span></div>
     </div>
 
     <div class="panel">
-      <h3 style="font-size:1.1rem; margin-bottom:14px;">Maombi ya Coin</h3>
+      <h3 style="font-size:1.1rem; margin-bottom:14px;">Maombi ya Kuweka Coin (Deposit)</h3>
       <div id="admin-alert" class="alert error"></div>
       <div style="overflow-x:auto;">
         <table class="admin-table">
@@ -76,6 +77,27 @@
             </tr>
           </thead>
           <tbody id="deposits-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3 style="font-size:1.1rem; margin-bottom:14px;">Maombi ya Kutoa Coin (Withdrawal)</h3>
+      <div id="admin-withdraw-alert" class="alert error"></div>
+      <div style="overflow-x:auto;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Tarehe</th>
+              <th>Mtumiaji</th>
+              <th>Coin</th>
+              <th>Kiasi</th>
+              <th>Namba ya Kutuma Pesa</th>
+              <th>Hali</th>
+              <th>Vitendo</th>
+            </tr>
+          </thead>
+          <tbody id="withdrawals-tbody"></tbody>
         </table>
       </div>
     </div>

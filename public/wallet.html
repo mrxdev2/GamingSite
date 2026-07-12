@@ -132,6 +132,30 @@
         <div class="deposit-list" id="deposit-history"></div>
       </div>
     </div>
+
+    <div class="wallet-grid" style="margin-top:24px;">
+      <div class="panel">
+        <h3 style="font-size:1.1rem; margin-bottom:6px;">Toa Coin (Withdrawal)</h3>
+        <p class="hint" style="margin-bottom:14px;">Weka idadi ya coin unazotaka kutoa na namba ya simu utakayopokelea pesa. Ombi litakwenda kwa admin, na coin zitakatwa kwenye salio lako tu baada ya admin kuthibitisha kuwa amekutumia pesa.</p>
+        <div id="withdraw-alert" class="alert error"></div>
+        <div class="form-grid">
+          <div class="form-row">
+            <label for="withdraw-coins">Idadi ya Coin Unazotaka Kutoa</label>
+            <input type="number" id="withdraw-coins" min="1" step="1" value="10" />
+          </div>
+          <div class="form-row">
+            <label for="withdraw-phone">Namba ya Simu ya Kupokelea Pesa</label>
+            <input type="tel" id="withdraw-phone" placeholder="07XXXXXXXX" />
+          </div>
+          <button class="btn btn-teal btn-block" id="submit-withdraw">Tuma Ombi la Kutoa Coin</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 style="font-size:1.1rem; margin-bottom:14px;">Historia ya Kutoa Coin</h3>
+        <div class="deposit-list" id="withdraw-history"></div>
+      </div>
+    </div>
   </div>
 
 </main>
