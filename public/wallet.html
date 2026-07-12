@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pochi — GamingHub</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="brand"><span class="brand-mark">GH</span> GamingHub</a>
+    <nav class="mainnav">
+      <a href="/">Michezo</a>
+      <a href="/add.html">Ongeza Mchezo</a>
+      <a href="/wallet.html" class="active">Pochi</a>
+      <a href="/admin.html">Admin</a>
+    </nav>
+    <div class="wallet-pill" id="nav-wallet-pill">Pochi</div>
+  </div>
+</header>
+
+<main class="shell">
+
+  <!-- Logged-out: login / register -->
+  <div id="auth-section">
+    <div class="section-head">
+      <div>
+        <h2>Ingia kwenye Pochi Yako</h2>
+        <p>Fungua akaunti ndogo ya Pochi ili kununua coin na kupakua michezo yenye bei.</p>
+      </div>
+    </div>
+
+    <div class="wallet-grid">
+      <div class="panel">
+        <h3 style="font-size:1.1rem; margin-bottom:14px;">Ingia</h3>
+        <div id="login-alert" class="alert error"></div>
+        <form id="login-form" class="form-grid">
+          <div class="form-row">
+            <label for="login-username">Jina la Mtumiaji</label>
+            <input type="text" id="login-username" required />
+          </div>
+          <div class="form-row">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" required />
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Ingia</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h3 style="font-size:1.1rem; margin-bottom:14px;">Jisajili</h3>
+        <div id="register-alert" class="alert error"></div>
+        <form id="register-form" class="form-grid">
+          <div class="form-row">
+            <label for="reg-username">Jina la Mtumiaji</label>
+            <input type="text" id="reg-username" required minlength="3" />
+          </div>
+          <div class="form-row">
+            <label for="reg-phone">Namba ya Simu (hiari)</label>
+            <input type="tel" id="reg-phone" placeholder="07XXXXXXXX" />
+          </div>
+          <div class="form-row">
+            <label for="reg-password">Password</label>
+            <input type="password" id="reg-password" required minlength="4" />
+          </div>
+          <button class="btn btn-teal btn-block" type="submit">Fungua Akaunti</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logged-in: wallet dashboard -->
+  <div id="wallet-section" style="display:none;">
+    <div class="section-head">
+      <div>
+        <h2>Pochi Yangu</h2>
+        <p id="welcome-line"></p>
+      </div>
+      <button class="btn btn-ghost" id="logout-btn">Toka</button>
+    </div>
+
+    <div class="wallet-grid">
+      <div>
+        <div class="balance-card">
+          <div class="label">Salio la Coin</div>
+          <div class="amount"><span class="coin-flip" aria-hidden="true"></span> <span id="balance-amount">0</span></div>
+          <p class="hint" style="margin-top:10px;">Coin 1 = <span id="coin-price">500 TSH</span></p>
+        </div>
+
+        <div class="panel">
+          <h3 style="font-size:1.1rem;">Jinsi ya Kununua Coin</h3>
+          <ol class="ussd-steps">
+            <li><span class="num">1</span> Chagua idadi ya coin unazotaka hapa chini.</li>
+            <li><span class="num">2</span> Tumia USSD ya mtandao wako kutuma pesa kwenda namba <b id="payment-number">0775710774</b> (<span id="payment-network">Yas</span>).</li>
+            <li><span class="num">3</span> Baada ya kutuma, utapata ujumbe wenye "transaction reference / TxnID" — nakili namba hiyo.</li>
+            <li><span class="num">4</span> Jaza fomu hapa chini na uwasilishe. Coin zitaongezwa kwenye Pochi yako mara admin atakapothibitisha malipo.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 style="font-size:1.1rem; margin-bottom:14px;">Nunua Coin</h3>
+        <div id="deposit-alert" class="alert error"></div>
+
+        <div class="form-grid">
+          <div class="form-row">
+            <label for="coins-input">Idadi ya Coin Unazotaka</label>
+            <input type="number" id="coins-input" min="1" step="1" value="10" />
+          </div>
+
+          <div class="receipt">
+            <div class="row"><span>Coin</span><b id="receipt-coins">10</b></div>
+            <div class="row"><span>Kiasi cha kulipa</span><b id="receipt-amount">5,000 TSH</b></div>
+            <div class="row"><span>Tuma kwenda</span><b id="receipt-number">0775710774</b></div>
+          </div>
+
+          <div class="form-row">
+            <label for="payer-phone">Namba ya Simu Uliyolipia</label>
+            <input type="tel" id="payer-phone" placeholder="07XXXXXXXX" />
+          </div>
+          <div class="form-row">
+            <label for="txn-ref">Namba ya Muamala (Transaction Ref)</label>
+            <input type="text" id="txn-ref" placeholder="Mfano: MP240712.1234.A56789" />
+          </div>
+
+          <button class="btn btn-primary btn-block" id="submit-deposit">Tuma Ombi la Kuongeza Coin</button>
+        </div>
+
+        <h4 style="margin-top:24px; font-size:0.95rem;">Historia ya Maombi Yako</h4>
+        <div class="deposit-list" id="deposit-history"></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">GamingHub &middot; Malipo yanathibitishwa na admin kabla coin hazijaingia Pochi yako.</footer>
+
+<script src="/js/api.js"></script>
+<script src="/js/wallet.js"></script>
+</body>
+</html>

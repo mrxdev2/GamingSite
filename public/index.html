@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GamingHub — Pakua michezo, lipa kwa coin</title>
+<meta name="description" content="GamingHub ni jukwaa la kupakia na kupakua michezo. Nunua coin kwa mfumo wa USSD na upakue michezo unayopenda." />
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="brand"><span class="brand-mark">GH</span> GamingHub</a>
+    <nav class="mainnav">
+      <a href="/" class="active">Michezo</a>
+      <a href="/add.html">Ongeza Mchezo</a>
+      <a href="/wallet.html">Pochi</a>
+      <a href="/admin.html">Admin</a>
+    </nav>
+    <div class="wallet-pill" id="nav-wallet-pill">Pochi</div>
+  </div>
+</header>
+
+<main class="shell">
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Jukwaa la michezo la kwako</div>
+      <h1>Pakua michezo. <span>Lipa kwa coin.</span> Chapisha zako mwenyewe.</h1>
+      <p class="lead">GamingHub inakuruhusu kuvinjari michezo iliyopakiwa na watumiaji wengine, kununua coin kwa haraka kupitia namba yako ya simu, na kupakia mchezo wako mwenyewe kwa dakika chache.</p>
+      <div class="hero-actions">
+        <a href="/add.html" class="btn btn-primary">+ Ongeza Mchezo</a>
+        <a href="/wallet.html" class="btn btn-ghost">Nunua Coin</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><b id="stat-games">—</b><span>Michezo iliyopo</span></div>
+        <div class="hero-stat"><b>500 TSH</b><span>= coin 1</span></div>
+        <div class="hero-stat"><b id="stat-downloads">—</b><span>Jumla ya downloads</span></div>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="cart cart-3"><div class="bar short"></div><div class="bar"></div><div class="price-hex free">BURE</div></div>
+      <div class="cart cart-2"><div class="bar short"></div><div class="bar"></div><div class="price-hex">5</div></div>
+      <div class="cart cart-1"><div class="bar short"></div><div class="bar"></div><div class="price-hex">2</div></div>
+    </div>
+  </section>
+
+  <div class="section-head">
+    <div>
+      <h2>Vinjari Michezo</h2>
+      <p>Bofya mchezo wowote kuona maelezo zaidi na kupakua.</p>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" class="search-input" placeholder="Tafuta mchezo kwa jina..." />
+    <select id="filter-price" class="search-input" style="flex:0 0 200px;">
+      <option value="all">Bei zote</option>
+      <option value="free">Bure tu</option>
+      <option value="paid">Zenye bei</option>
+    </select>
+  </div>
+
+  <div id="game-grid" class="game-grid"></div>
+  <div id="empty" class="empty-state" style="display:none;">
+    <h3>Hakuna mchezo bado</h3>
+    <p>Kuwa wa kwanza kuongeza mchezo kwenye GamingHub.</p>
+    <a href="/add.html" class="btn btn-primary" style="margin-top:14px;">+ Ongeza Mchezo</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">GamingHub &middot; Coin 1 = 500 TSH &middot; Malipo kupitia Yas (Mixx by Yas)</footer>
+
+<!-- Download / purchase modal -->
+<div class="modal-backdrop" id="download-modal">
+  <div class="modal">
+    <h3 id="dl-title">Pakua Mchezo</h3>
+    <p class="sub" id="dl-sub"></p>
+    <div id="dl-alert" class="alert error"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="dl-cancel">Ghairi</button>
+      <button class="btn btn-primary" id="dl-confirm">Thibitisha</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/home.js"></script>
+</body>
+</html>

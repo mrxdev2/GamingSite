@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin — GamingHub</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="brand"><span class="brand-mark">GH</span> GamingHub</a>
+    <nav class="mainnav">
+      <a href="/">Michezo</a>
+      <a href="/add.html">Ongeza Mchezo</a>
+      <a href="/wallet.html">Pochi</a>
+      <a href="/admin.html" class="active">Admin</a>
+    </nav>
+    <div class="wallet-pill" id="nav-wallet-pill">Pochi</div>
+  </div>
+</header>
+
+<main class="shell">
+
+  <div id="admin-login-section">
+    <div class="section-head">
+      <div>
+        <h2>Admin Login</h2>
+        <p>Ingia kwa password ya admin kuthibitisha malipo ya coin.</p>
+      </div>
+    </div>
+    <div class="panel" style="max-width:420px;">
+      <div id="admin-login-alert" class="alert error"></div>
+      <form id="admin-login-form" class="form-grid">
+        <div class="form-row">
+          <label for="admin-password">Password ya Admin</label>
+          <input type="password" id="admin-password" required />
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Ingia</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="admin-dashboard" style="display:none;">
+    <div class="section-head">
+      <div>
+        <h2>Dashibodi ya Admin</h2>
+        <p>Thibitisha au kataa maombi ya kuongeza coin.</p>
+      </div>
+      <button class="btn btn-ghost" id="admin-logout-btn">Toka</button>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box"><b id="stat-games">—</b><span>Michezo</span></div>
+      <div class="stat-box"><b id="stat-users">—</b><span>Watumiaji wa Pochi</span></div>
+      <div class="stat-box"><b id="stat-pending">—</b><span>Maombi Yanayosubiri</span></div>
+      <div class="stat-box"><b id="stat-coins">—</b><span>Coin Zilizopo Mzunguko</span></div>
+    </div>
+
+    <div class="panel">
+      <h3 style="font-size:1.1rem; margin-bottom:14px;">Maombi ya Coin</h3>
+      <div id="admin-alert" class="alert error"></div>
+      <div style="overflow-x:auto;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Tarehe</th>
+              <th>Mtumiaji</th>
+              <th>Coin</th>
+              <th>Kiasi</th>
+              <th>Namba ya Malipo</th>
+              <th>Ref</th>
+              <th>Hali</th>
+              <th>Vitendo</th>
+            </tr>
+          </thead>
+          <tbody id="deposits-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">GamingHub Admin</footer>
+
+<script src="/js/api.js"></script>
+<script src="/js/admin.js"></script>
+</body>
+</html>

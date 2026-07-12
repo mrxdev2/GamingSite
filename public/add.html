@@ -1,1 +1,135 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ongeza Mchezo — GamingHub</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
 
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="brand"><span class="brand-mark">GH</span> GamingHub</a>
+    <nav class="mainnav">
+      <a href="/">Michezo</a>
+      <a href="/add.html" class="active">Ongeza Mchezo</a>
+      <a href="/wallet.html">Pochi</a>
+      <a href="/admin.html">Admin</a>
+    </nav>
+    <div class="wallet-pill" id="nav-wallet-pill">Pochi</div>
+  </div>
+</header>
+
+<main class="shell">
+  <div class="section-head">
+    <div>
+      <h2>Ongeza Mchezo Mpya</h2>
+      <p>Jaza taarifa za mchezo wako. Weka password yako mwenyewe — itahitajika baadaye ukitaka kubadili au kufuta tangazo hili.</p>
+    </div>
+  </div>
+
+  <div class="panel" style="max-width:720px;">
+    <div id="form-alert" class="alert error"></div>
+    <form id="add-form" class="form-grid">
+
+      <div class="form-row">
+        <label for="name">Jina la Mchezo</label>
+        <input type="text" id="name" required maxlength="80" placeholder="Mfano: Extreme Car Driving" />
+      </div>
+
+      <div class="form-row two">
+        <div class="form-row">
+          <label for="iconUrl">Link ya Picha ya Icon</label>
+          <input type="url" id="iconUrl" required placeholder="https://...jpg" />
+          <span class="hint">Picha ndogo itakayoonekana pembeni ya jina la mchezo.</span>
+        </div>
+        <div class="form-row">
+          <label for="previewUrl">Link ya Picha ya Preview</label>
+          <input type="url" id="previewUrl" required placeholder="https://...jpg" />
+          <span class="hint">Picha kubwa itakayoonekana juu ya kadi ya mchezo.</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="downloadUrl">Link ya Kupakua Mchezo</label>
+        <input type="url" id="downloadUrl" required placeholder="https://..." />
+        <span class="hint">Hii ndiyo itakayotumika kama kitufe cha "Pakua" kwa watumiaji.</span>
+      </div>
+
+      <div class="form-row two">
+        <div class="form-row">
+          <label for="priceCoins">Bei kwa Coin</label>
+          <input type="number" id="priceCoins" min="0" step="1" value="0" required />
+          <span class="hint">Weka 0 kama mchezo ni bure. Coin 1 = 500 TSH.</span>
+        </div>
+        <div class="form-row">
+          <label for="password">Weka Password Yako</label>
+          <input type="password" id="password" required minlength="4" placeholder="Angalau herufi 4" />
+          <span class="hint">Itumike baadaye kufuta / kubadili tangazo hili.</span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" id="submit-btn">Chapisha Mchezo</button>
+    </form>
+  </div>
+
+  <div class="panel" style="max-width:720px;">
+    <h3 style="font-size:1.1rem;">Unataka kubadili au kufuta mchezo uliopakia?</h3>
+    <p class="hint" style="margin:8px 0 16px;">Tafuta mchezo wako kwa jina, kisha weka password uliyoitumia ulipouongeza.</p>
+    <div class="form-row two">
+      <div class="form-row">
+        <label for="manage-search">Jina la Mchezo</label>
+        <input type="text" id="manage-search" placeholder="Andika jina la mchezo..." />
+      </div>
+    </div>
+    <div id="manage-results" style="margin-top:14px; display:grid; gap:10px;"></div>
+  </div>
+</main>
+
+<footer class="site-footer">GamingHub &middot; Coin 1 = 500 TSH &middot; Malipo kupitia Yas (Mixx by Yas)</footer>
+
+<!-- Manage (edit/delete) modal -->
+<div class="modal-backdrop" id="manage-modal">
+  <div class="modal">
+    <h3 id="manage-title">Simamia Mchezo</h3>
+    <p class="sub">Weka password uliyotumia wakati wa kuongeza mchezo huu.</p>
+    <div id="manage-alert" class="alert error"></div>
+    <form id="manage-form" class="form-grid">
+      <div class="form-row">
+        <label for="manage-name">Jina Jipya (hiari)</label>
+        <input type="text" id="manage-name" placeholder="Acha wazi kama hutaki kubadili" />
+      </div>
+      <div class="form-row">
+        <label for="manage-icon">Link Mpya ya Icon (hiari)</label>
+        <input type="url" id="manage-icon" placeholder="Acha wazi kama hutaki kubadili" />
+      </div>
+      <div class="form-row">
+        <label for="manage-preview">Link Mpya ya Preview (hiari)</label>
+        <input type="url" id="manage-preview" placeholder="Acha wazi kama hutaki kubadili" />
+      </div>
+      <div class="form-row">
+        <label for="manage-download">Link Mpya ya Download (hiari)</label>
+        <input type="url" id="manage-download" placeholder="Acha wazi kama hutaki kubadili" />
+      </div>
+      <div class="form-row">
+        <label for="manage-price">Bei Mpya kwa Coin (hiari)</label>
+        <input type="number" min="0" step="1" id="manage-price" placeholder="Acha wazi kama hutaki kubadili" />
+      </div>
+      <div class="form-row">
+        <label for="manage-password">Password</label>
+        <input type="password" id="manage-password" required placeholder="Password ya tangazo hili" />
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-danger" id="manage-delete">Futa Mchezo</button>
+        <button type="submit" class="btn btn-primary">Hifadhi Mabadiliko</button>
+      </div>
+      <button type="button" class="btn btn-ghost btn-block" id="manage-cancel">Funga</button>
+    </form>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/add.js"></script>
+</body>
+</html>
