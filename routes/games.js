@@ -26,6 +26,8 @@ function publicGame(g, unlocked) {
     priceCoins: g.priceCoins,
     downloads: g.downloads || 0,
     createdAt: g.createdAt,
+    // Jina la mtumiaji aliyepakia mchezo huu (uploaded by).
+    uploadedBy: g.uploaderName || null,
     downloadUrl: unlocked ? g.downloadUrl : null,
     unlocked: !!unlocked,
   };
@@ -77,9 +79,16 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST /api/games -> add a new game listing
-router.post('/', async (req, res) => {
+// Inahitaji mtumiaji awe ameingia kwenye Pochi yake, kwa sababu jina
+// lake litahifadhiwa kama "uploaded by" na coin za mauzo ya mchezo huu
+// zitakuwa zikimuingia yeye kila mtumiaji mwingine akidownload.
+router.post('/', requireLogin, async (req, res) => {
   try {
     const { name, iconUrl, previewUrl, downloadUrl, priceCoins, password } = req.body;
+
+    const uploaders = await db.readCollection('users');
+    const uploader = uploaders.find((u) => u.id === req.session.userId);
+    if (!uploader) return res.status(401).json({ error: 'Akaunti yako haipo tena. Ingia upya.' });
 
     if (!name || String(name).trim().length < 2) {
       return res.status(400).json({ error: 'Jina la mchezo si sahihi.' });
@@ -111,6 +120,8 @@ router.post('/', async (req, res) => {
       priceCoins: price,
       passwordHash: hashPassword(password),
       downloads: 0,
+      uploadedBy: uploader.id,
+      uploaderName: uploader.username,
       createdAt: new Date().toISOString(),
     };
     games.push(game);
@@ -216,6 +227,17 @@ router.post('/:id/download', requireLogin, async (req, res) => {
         });
       }
       user.coins -= game.priceCoins;
+
+      // Coin za mnunuzi zinakwenda kwa mmiliki (uploader) wa mchezo huu,
+      // si kupotea tu. Kila mtumiaji mpya anayenunua/kudownload
+      // huongeza salio la mwenye mchezo kwa bei aliyoiweka.
+      if (game.uploadedBy) {
+        const uploaderIdx = users.findIndex((u) => u.id === game.uploadedBy);
+        if (uploaderIdx !== -1 && users[uploaderIdx].id !== user.id) {
+          users[uploaderIdx].coins = (users[uploaderIdx].coins || 0) + game.priceCoins;
+        }
+      }
+
       await db.writeCollection('users', users);
 
       purchases.push({

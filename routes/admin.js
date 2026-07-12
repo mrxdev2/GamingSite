@@ -87,16 +87,89 @@ router.post('/deposits/:id/reject', requireAdmin, async (req, res) => {
   }
 });
 
+// GET /api/admin/withdrawals -> every withdrawal request, newest first
+router.get('/withdrawals', requireAdmin, async (req, res) => {
+  try {
+    const withdrawals = await db.readCollection('withdrawals');
+    const sortedWithdrawals = withdrawals.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const users = await db.readCollection('users');
+
+    const withUsernames = sortedWithdrawals.map((w) => ({
+      ...w,
+      username: (users.find((u) => u.id === w.userId) || {}).username || '—',
+    }));
+    res.json({ withdrawals: withUsernames });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Imefeli kusoma withdrawals.' });
+  }
+});
+
+// POST /api/admin/withdrawals/:id/approve -> admin has already sent the
+// money by hand; this is what actually deducts the coins from the user.
+router.post('/withdrawals/:id/approve', requireAdmin, async (req, res) => {
+  try {
+    const withdrawals = await db.readCollection('withdrawals');
+    const withdrawal = withdrawals.find((w) => w.id === Number(req.params.id));
+    if (!withdrawal) return res.status(404).json({ error: 'Ombi haipo.' });
+    if (withdrawal.status !== 'pending') {
+      return res.status(409).json({ error: 'Ombi hili tayari limeshughulikiwa.' });
+    }
+
+    const users = await db.readCollection('users');
+    const user = users.find((u) => u.id === withdrawal.userId);
+    if (!user) return res.status(404).json({ error: 'Mtumiaji hayupo.' });
+    if (user.coins < withdrawal.coins) {
+      return res.status(409).json({
+        error: `Mtumiaji hana coin za kutosha tena (ana coin ${user.coins}, ombi ni coin ${withdrawal.coins}).`,
+      });
+    }
+
+    user.coins -= withdrawal.coins;
+    withdrawal.status = 'approved';
+    withdrawal.approvedAt = new Date().toISOString();
+
+    await db.writeCollection('users', users);
+    await db.writeCollection('withdrawals', withdrawals);
+
+    res.json({ ok: true, withdrawal, newBalance: user.coins });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Imefeli kuidhinisha ombi la kutoa coin.' });
+  }
+});
+
+// POST /api/admin/withdrawals/:id/reject -> user's balance is untouched
+router.post('/withdrawals/:id/reject', requireAdmin, async (req, res) => {
+  try {
+    const withdrawals = await db.readCollection('withdrawals');
+    const withdrawal = withdrawals.find((w) => w.id === Number(req.params.id));
+    if (!withdrawal) return res.status(404).json({ error: 'Ombi haipo.' });
+    if (withdrawal.status !== 'pending') {
+      return res.status(409).json({ error: 'Ombi hili tayari limeshughulikiwa.' });
+    }
+    withdrawal.status = 'rejected';
+    withdrawal.rejectedAt = new Date().toISOString();
+    await db.writeCollection('withdrawals', withdrawals);
+    res.json({ ok: true, withdrawal });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Imefeli kukataa ombi la kutoa coin.' });
+  }
+});
+
 // Basic stats for the admin dashboard header
 router.get('/stats', requireAdmin, async (req, res) => {
   try {
     const games = await db.readCollection('games');
     const users = await db.readCollection('users');
     const deposits = await db.readCollection('deposits');
+    const withdrawals = await db.readCollection('withdrawals');
     res.json({
       totalGames: games.length,
       totalUsers: users.length,
       pendingDeposits: deposits.filter((d) => d.status === 'pending').length,
+      pendingWithdrawals: withdrawals.filter((w) => w.status === 'pending').length,
       totalCoinsInCirculation: users.reduce((sum, u) => sum + (u.coins || 0), 0),
     });
   } catch (err) {
